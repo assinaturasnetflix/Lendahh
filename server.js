@@ -1,11 +1,13 @@
 const express = require('express');
 const TronWeb = require('tronweb');
 const QRCode = require('qrcode');
+const cors = require('cors');
 
 const app = express();
-app.use(express.json());
-
 const PORT = 3000;
+
+app.use(cors());
+app.use(express.json());
 
 const tronWeb = new TronWeb({
   fullHost: 'https://api.trongrid.io',
@@ -37,7 +39,8 @@ app.get('/api/balance/:userId', async (req, res) => {
   try {
     const contract = await tronWeb.contract().at(USDT_CONTRACT);
     const balance = await contract.balanceOf(user.address).call();
-    const usdt = parseFloat(tronWeb.toBigNumber(balance).div(1e6));
+    // balance é um objeto BigNumber no TronWeb v4
+    const usdt = tronWeb.toBigNumber(balance._hex ? balance._hex : balance).dividedBy(1e6).toString(10);
     res.json({ address: user.address, usdt });
   } catch (err) {
     res.status(500).json({ error: 'Erro ao consultar saldo' });
@@ -46,6 +49,8 @@ app.get('/api/balance/:userId', async (req, res) => {
 
 app.post('/api/send', async (req, res) => {
   const { userId, to, amount } = req.body;
+  if (!userId || !to || !amount) return res.status(400).json({ error: 'Parâmetros insuficientes' });
+
   const user = users[userId];
   if (!user) return res.status(404).json({ error: 'Usuário não encontrado' });
 
@@ -57,10 +62,10 @@ app.post('/api/send', async (req, res) => {
     });
 
     const contract = await tronWebSender.contract().at(USDT_CONTRACT);
-    const tx = await contract.transfer(to, amount * 1e6).send();
+    const tx = await contract.transfer(to, tronWeb.toBigNumber(amount).multipliedBy(1e6).toFixed(0)).send();
     res.json({ tx });
   } catch (err) {
-    res.status(500).json({ error: 'Erro ao enviar USDT' });
+    res.status(500).json({ error: 'Erro ao enviar USDT', details: err.message });
   }
 });
 
