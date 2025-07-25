@@ -8,17 +8,16 @@
     "dev": "nodemon server.js"
   },
   "dependencies": {
-    "express": "^4.18.2",
-    "qrcode": "^1.5.1",
-    "tronweb": "^2.12.4"
+    "express": "",
+    "qrcode": "",
+    "tronweb": "5.3.1"
   },
   "devDependencies": {
-    "nodemon": "^2.0.22"
+    "nodemon": ""
   },
   "engines": {
     "node": ">=18",
     "npm": ">=9"
   },
-  "keywords": [],
   "license": "MIT"
 }
