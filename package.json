@@ -1,7 +1,7 @@
 {
   "name": "tron-usdt-api",
   "version": "1.0.0",
-  "description": "API para carteira Tron USDT (TRC-20) com Express",
+  "description": "API para carteira Tron USDT (TRC-20)",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -9,8 +9,8 @@
   },
   "dependencies": {
     "express": "^4.18.2",
-    "tronweb": "^6.0.3",
-    "qrcode": "^1.5.1"
+    "qrcode": "^1.5.1",
+    "tronweb": "^2.12.4"
   },
   "devDependencies": {
     "nodemon": "^2.0.22"
@@ -19,5 +19,6 @@
     "node": ">=18",
     "npm": ">=9"
   },
+  "keywords": [],
   "license": "MIT"
 }
