@@ -9,12 +9,15 @@
   },
   "dependencies": {
     "express": "^4.18.2",
-    "tronweb": "^3.4.11",
+    "tronweb": "^6.0.3",
     "qrcode": "^1.5.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.22"
   },
-  "author": "",
+  "engines": {
+    "node": ">=18",
+    "npm": ">=9"
+  },
   "license": "MIT"
 }
